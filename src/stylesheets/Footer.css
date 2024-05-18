@@ -1,0 +1,12 @@
+.footer {
+  color: white;
+  font: normal;
+  font-weight: bold;
+  background-color: #2bb019;
+  font-size: 13px;
+  transform: translateY(155%);
+  width: 178.3%;
+  height: 4rem;
+  text-align: center;
+  line-height: 4rem;
+}
