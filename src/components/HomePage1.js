@@ -4,39 +4,33 @@ import "../stylesheets/Homepage1.css";
 import h1SpeakingImage from "../assets/speaking.jpeg";
 import h1ListeningImage from "../assets/listening.webp";
 import Footer from "./footer";
+const pageloadspeech = [
+  { Q: "Welcome to your Aphasia Therapy Session!" },
+  { Q: "We're glad you're here. Let's get started!" },
+  { Q: "Please select one of the therapies: listening or speaking." },
+  { Q: "If you need help at any time, just ask." },
+  { Q: "Let's work together towards better communication!" },
+];
 
 export default function HomePage() {
   useEffect(() => {
-    const speech = new SpeechSynthesisUtterance(
-      "Welcome To Aphasia Therapy Session . We're glad you're here. Let's get started! . Please select one of the therapies: listening or speaking. If you need help at any time, just ask. Let's work together towards better communication! "
-    );
-
-    const handleVoicesChanged = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const voice = voices.find(
-        (voice) => voice.name === "Microsoft Zira - English (United States)"
-      );
-      console.log("Available voices:", voices);
-      if (voice) {
-        console.log("Selected voice:", voice);
-        speech.voice = voice;
+    const speakQuestions = () => {
+      for (let i = 0; i < pageloadspeech.length; i++) {
+        const speech = new SpeechSynthesisUtterance(pageloadspeech[i].Q);
+        const voice = window.speechSynthesis
+          .getVoices()
+          .find(
+            (voice) => voice.name === "Microsoft Zira - English (United States)"
+          );
+        if (voice) {
+          speech.voice = voice;
+        }
         window.speechSynthesis.speak(speech);
-      } else {
-        console.log("Voice not available:", voice);
       }
     };
-
-    window.speechSynthesis.addEventListener(
-      "voiceschanged",
-      handleVoicesChanged
-    );
+    speakQuestions();
 
     return () => {
-      window.speechSynthesis.removeEventListener(
-        "voiceschanged",
-        handleVoicesChanged
-      );
-
       window.speechSynthesis.cancel();
     };
   }, []);
